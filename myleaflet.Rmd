@@ -1,0 +1,107 @@
+---
+title: "R Markdown and Leaflet"
+author: "Edward Cheng"
+date: "November 23, 2016"
+output: html_document
+always_allow_html: yes
+---
+
+## Introduction
+
+Leaflet is one of the most popular Javascript libraries for
+creating interactive maps. The leaflet R package allows you
+to create your own leaflet maps without needing to know any
+Javascript!
+
+### Installation
+
+```r
+install.packages("leaflet")
+```
+
+## My First Map
+
+Getting started with leaflet is easy. The `leaflet()`
+function creates a map widget that you can store in a
+variable so that you can modify the map later on. You can
+add features to the map using the pipe operator (`%>%`) just
+like in dplyr. The `addTiles()` function adds mapping data
+from [Open Street Map](http://www.openstreetmap.org/).
+
+```{r, eval=FALSE}
+library(leaflet)
+my_map <- leaflet() %>% 
+  addTiles()
+my_map
+```
+
+## My First Map
+
+```{r, echo=FALSE}
+library(leaflet)
+my_map <- leaflet() %>% 
+  addTiles()
+my_map
+```
+
+## Adding Markers
+
+You can add markers to your map one at a time using the
+`addMarkers()` function by specifying the longitude and
+latitude. ([Here's](https://twitter.com/drob/status/719927537330040832)
+a tip if you tend to mix them up.) You can specify popup
+text for when you click on the marker with the `popup` 
+argument.
+
+```{r, eval=FALSE}
+library(leaflet)
+my_map <- my_map %>%
+  addMarkers(lat=25.03374, lng=121.56480, 
+             popup="Taipei 101 Building")
+my_map
+```
+
+## Adding Markers
+
+```{r, echo=FALSE}
+library(leaflet)
+my_map <- my_map %>%
+  addMarkers(lat=25.03374, lng=121.56480, 
+             popup="Taipei 101 Building")
+my_map
+```
+
+## Mapping Clusters
+
+Sometimes you might have so many points on a map that it
+doesn't make sense to plot every marker. In these situations
+leaflet allows you to plot clusters of markers using
+`addMarkers(clusterOptions = markerClusterOptions())`. When
+you zoom in to each cluster, the clusters will separate until
+you can see the individual markers.
+
+```{r, eval=FALSE}
+df <- data.frame(lat = runif(500, min = 24.98, max = 25.08),
+                 lng = runif(500, min = 121.51, max = 121.61))
+df %>% 
+  leaflet() %>%
+  addTiles() %>%
+  addMarkers(clusterOptions = markerClusterOptions())
+```
+
+## Mapping Clusters
+
+```{r, echo=FALSE}
+df <- data.frame(lat = runif(500, min = 24.98, max = 25.08),
+                 lng = runif(500, min = 121.51, max = 121.61))
+df %>% 
+  leaflet() %>%
+  addTiles() %>%
+  addMarkers(clusterOptions = markerClusterOptions())
+```
+
+## Conclusion
+
+For more details about the leaflet package for R 
+visit http://rstudio.github.io/leaflet/.
+
